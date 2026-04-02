@@ -1,0 +1,102 @@
+@use '@angular/material' as mat;
+
+html {
+  height: 100%;
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$violet-palette,
+        tertiary: mat.$cyan-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+body {
+  color-scheme: light;
+  background-color: #f1f5f9;
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+  margin: 0;
+  height: 100%;
+}
+
+@import "tailwindcss";
+
+/* ===== GLOBAL CUSTOM STYLES ===== */
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* Cards con sombra suave y bordes redondeados */
+mat-card, .mat-mdc-card {
+  border-radius: 12px !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06) !important;
+  border: 1px solid #e2e8f0 !important;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+mat-card:hover, .mat-mdc-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06) !important;
+}
+
+/* Tablas */
+.mat-mdc-table {
+  border-radius: 8px !important;
+  overflow: hidden;
+}
+.mat-mdc-header-row {
+  background-color: #f8fafc !important;
+}
+.mat-mdc-header-cell {
+  color: #475569 !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+.mat-mdc-row:hover {
+  background-color: #f1f5f9 !important;
+}
+
+/* Botones */
+.mat-mdc-raised-button.mat-primary {
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em !important;
+}
+
+/* Form fields */
+.mat-mdc-form-field {
+  .mdc-text-field--outlined .mdc-notched-outline {
+    border-radius: 8px;
+  }
+}
+
+/* Chips */
+.mat-mdc-chip {
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+/* Paginator */
+.mat-mdc-paginator {
+  background: transparent !important;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 0;
+}
+
+/* Snackbar */
+.mat-mdc-snack-bar-container {
+  border-radius: 8px !important;
+}
+
+/* Transitions globales */
+a, button {
+  transition: all 0.15s ease;
+}
