@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@
 import { CommonModule } from '@angular/common';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { finalize } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -156,14 +157,14 @@ export class NotificationListComponent implements OnInit {
 
   load(): void {
     this.loading = true;
-    this.notifService.getAll(this.page, 20, this.leidoFilter).subscribe({
-      next: (r: any) => {
-        this.dataSource.data = r.data?.data || [];
-        this.total = r.data?.total || 0;
-        this.loading = false;
-        this.cdr.markForCheck();
-      },
-    });
+    this.notifService.getAll(this.page, 20, this.leidoFilter)
+      .pipe(finalize(() => { this.loading = false; this.cdr.markForCheck(); }))
+      .subscribe({
+        next: (r: any) => {
+          this.dataSource.data = r.data?.data || [];
+          this.total = r.data?.total || 0;
+        },
+      });
   }
 
   onPage(e: PageEvent): void { this.page = e.pageIndex + 1; this.load(); }

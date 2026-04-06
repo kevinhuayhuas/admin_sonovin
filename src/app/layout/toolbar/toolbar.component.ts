@@ -130,6 +130,7 @@ export class ToolbarComponent implements OnInit {
   loadUnreadCount(): void {
     this.notificationService.getUnreadCount().subscribe({
       next: (res: any) => (this.unreadCount = res?.data ?? 0),
+      error: () => (this.unreadCount = 0),
     });
   }
 

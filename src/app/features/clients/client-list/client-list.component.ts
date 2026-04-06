@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { finalize } from 'rxjs';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
@@ -170,20 +171,21 @@ export class ClientListComponent implements OnInit {
     public authService: AuthService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void { this.loadClients(); }
 
   loadClients(): void {
     this.loading = true;
-    this.clientService.getAll(this.page, this.limit, this.search).subscribe({
-      next: (res: any) => {
-        this.dataSource.data = res.data?.data || res.data || [];
-        this.total = res.data?.total || 0;
-        this.loading = false;
-      },
-      error: () => { this.loading = false; },
-    });
+    this.clientService.getAll(this.page, this.limit, this.search)
+      .pipe(finalize(() => { this.loading = false; this.cdr.detectChanges(); }))
+      .subscribe({
+        next: (res: any) => {
+          this.dataSource.data = res.data?.data || res.data || [];
+          this.total = res.data?.total || 0;
+        },
+      });
   }
 
   onPage(event: PageEvent): void {

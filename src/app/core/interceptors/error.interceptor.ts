@@ -10,12 +10,19 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error) => {
-      if (error.status === 401) {
+      // Don't redirect on login endpoint 401 - let the login component handle it
+      const isLoginRequest = req.url.includes('/auth/login');
+
+      if (error.status === 401 && !isLoginRequest) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         router.navigate(['/login']);
       } else if (error.status === 403) {
-        snackBar.open('No tienes permisos para realizar esta acción', 'Cerrar', {
+        snackBar.open('No tienes permisos para realizar esta accion', 'Cerrar', {
+          duration: 3000,
+        });
+      } else if (error.status === 0) {
+        snackBar.open('Sin conexion al servidor', 'Cerrar', {
           duration: 3000,
         });
       } else if (error.status >= 500) {

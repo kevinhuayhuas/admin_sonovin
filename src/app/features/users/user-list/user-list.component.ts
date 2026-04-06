@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { finalize } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -132,16 +133,15 @@ export class UserListComponent implements OnInit {
   page = 1;
   loading = true;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private cdr: ChangeDetectorRef) {}
   ngOnInit(): void { this.load(); }
 
   load(): void {
     this.loading = true;
-    this.userService.getAll(this.page).subscribe({
+    this.userService.getAll(this.page).pipe(finalize(() => { this.loading = false; this.cdr.detectChanges(); })).subscribe({
       next: (r: any) => {
         this.dataSource.data = r.data?.data || [];
         this.total = r.data?.total || 0;
-        this.loading = false;
       },
     });
   }

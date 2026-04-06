@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -13,6 +13,8 @@ import { ClientService } from '../../core/services/client.service';
 import { HasRoleDirective } from '../../shared/directives/has-role.directive';
 import { DaysUntilPipe } from '../../shared/pipes/days-until.pipe';
 import { SkeletonComponent } from '../../shared/components/skeleton/skeleton.component';
+import { finalize, forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Subscription } from '../../core/models/subscription.model';
 import dayjs from 'dayjs';
 
@@ -254,6 +256,7 @@ export class DashboardComponent implements OnInit {
     public authService: AuthService,
     private subscriptionService: SubscriptionService,
     private clientService: ClientService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -264,27 +267,24 @@ export class DashboardComponent implements OnInit {
   }
 
   loadExpiring(): void {
-    this.subscriptionService.getExpiring(30).subscribe({
+    this.subscriptionService.getExpiring(30).pipe(finalize(() => { this.loadingTable = false; this.cdr.detectChanges(); })).subscribe({
       next: (res: any) => {
         this.expiringSubscriptions = res?.data || res || [];
         this.expiringCount = this.expiringSubscriptions.filter(s => this.getDaysLeft(s) > 0).length;
         this.expiredCount = this.expiringSubscriptions.filter(s => this.getDaysLeft(s) <= 0).length;
-        this.loadingTable = false;
       },
-      error: () => { this.loadingTable = false; },
     });
   }
 
   loadMetrics(): void {
-    let loaded = 0;
-    const checkDone = () => { if (++loaded >= 2) this.loadingMetrics = false; };
-    this.clientService.count().subscribe({
-      next: (res: any) => { this.totalClients = res?.data ?? 0; checkDone(); },
-      error: () => checkDone(),
-    });
-    this.subscriptionService.getRevenue().subscribe({
-      next: (res: any) => { this.totalRevenue = res?.data ?? 0; checkDone(); },
-      error: () => checkDone(),
+    forkJoin({
+      count: this.clientService.count().pipe(catchError(() => of({ data: 0 }))),
+      revenue: this.subscriptionService.getRevenue().pipe(catchError(() => of({ data: 0 }))),
+    }).pipe(finalize(() => { this.loadingMetrics = false; this.cdr.detectChanges(); })).subscribe({
+      next: ({ count, revenue }: any) => {
+        this.totalClients = count?.data ?? 0;
+        this.totalRevenue = revenue?.data ?? 0;
+      },
     });
   }
 
