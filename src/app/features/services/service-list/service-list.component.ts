@@ -10,6 +10,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SkeletonComponent } from '../../../shared/components/skeleton/skeleton.component';
 import { ServiceService } from '../../../core/services/service.service';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { ServiceItem } from '../../../core/models/service.model';
@@ -19,7 +20,7 @@ import { ServiceItem } from '../../../core/models/service.model';
   standalone: true,
   imports: [
     CommonModule, RouterModule, MatTableModule, MatPaginatorModule,
-    MatButtonModule, MatIconModule, MatCardModule, MatChipsModule, MatTooltipModule,
+    MatButtonModule, MatIconModule, MatCardModule, MatChipsModule, MatTooltipModule, SkeletonComponent,
   ],
   template: `
     <div class="page-header">
@@ -33,7 +34,9 @@ import { ServiceItem } from '../../../core/models/service.model';
     </div>
 
     <mat-card class="table-card">
-      @if (dataSource.data.length === 0 && !loading) {
+      @if (loading) {
+        <app-skeleton type="table" [rowCount]="5" [colCount]="4"></app-skeleton>
+      } @else if (dataSource.data.length === 0) {
         <div class="empty-state">
           <mat-icon>inventory_2</mat-icon>
           <h3>Sin servicios</h3>

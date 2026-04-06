@@ -14,6 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatCardModule } from '@angular/material/card';
+import { SkeletonComponent } from '../../../shared/components/skeleton/skeleton.component';
 import { ClientService } from '../../../core/services/client.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
@@ -28,7 +29,7 @@ import { Client } from '../../../core/models/client.model';
     MatTableModule, MatPaginatorModule, MatSortModule,
     MatButtonModule, MatIconModule, MatFormFieldModule,
     MatInputModule, MatDialogModule, HasRoleDirective,
-    MatTooltipModule, MatChipsModule, MatCardModule,
+    MatTooltipModule, MatChipsModule, MatCardModule, SkeletonComponent,
   ],
   template: `
     <div class="page-header">
@@ -56,7 +57,9 @@ import { Client } from '../../../core/models/client.model';
         </mat-form-field>
       </div>
 
-      @if (dataSource.data.length === 0) {
+      @if (loading) {
+        <app-skeleton type="table" [rowCount]="5" [colCount]="5"></app-skeleton>
+      } @else if (dataSource.data.length === 0) {
         <div class="empty-state">
           <mat-icon>people_outline</mat-icon>
           <h3>Sin resultados</h3>
@@ -160,6 +163,7 @@ export class ClientListComponent implements OnInit {
   search = '';
   page = 1;
   limit = 10;
+  loading = true;
 
   constructor(
     private clientService: ClientService,
@@ -171,11 +175,14 @@ export class ClientListComponent implements OnInit {
   ngOnInit(): void { this.loadClients(); }
 
   loadClients(): void {
+    this.loading = true;
     this.clientService.getAll(this.page, this.limit, this.search).subscribe({
       next: (res: any) => {
         this.dataSource.data = res.data?.data || res.data || [];
         this.total = res.data?.total || 0;
+        this.loading = false;
       },
+      error: () => { this.loading = false; },
     });
   }
 

@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SkeletonComponent } from '../../../shared/components/skeleton/skeleton.component';
 import { UserService } from '../../../core/services/user.service';
 import { User } from '../../../core/models/user.model';
 
@@ -15,7 +16,7 @@ import { User } from '../../../core/models/user.model';
   standalone: true,
   imports: [
     CommonModule, RouterModule, MatTableModule, MatPaginatorModule,
-    MatButtonModule, MatIconModule, MatCardModule, MatTooltipModule,
+    MatButtonModule, MatIconModule, MatCardModule, MatTooltipModule, SkeletonComponent,
   ],
   template: `
     <div class="page-header">
@@ -29,7 +30,9 @@ import { User } from '../../../core/models/user.model';
     </div>
 
     <mat-card class="table-card">
-      @if (dataSource.data.length === 0 && !loading) {
+      @if (loading) {
+        <app-skeleton type="table" [rowCount]="4" [colCount]="4"></app-skeleton>
+      } @else if (dataSource.data.length === 0) {
         <div class="empty-state">
           <mat-icon>manage_accounts</mat-icon>
           <h3>Sin usuarios</h3>

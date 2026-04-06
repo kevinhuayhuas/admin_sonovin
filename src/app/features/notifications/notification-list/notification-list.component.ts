@@ -11,6 +11,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotificationService } from '../../../core/services/notification.service';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
+import { SkeletonComponent } from '../../../shared/components/skeleton/skeleton.component';
 import { Notification } from '../../../core/models/notification.model';
 
 @Component({
@@ -20,7 +21,7 @@ import { Notification } from '../../../core/models/notification.model';
   imports: [
     CommonModule, MatTableModule, MatPaginatorModule, MatButtonModule,
     MatIconModule, MatCardModule, MatChipsModule, MatButtonToggleModule,
-    MatTooltipModule, HasRoleDirective,
+    MatTooltipModule, HasRoleDirective, SkeletonComponent,
   ],
   template: `
     <div class="page-header">
@@ -35,7 +36,9 @@ import { Notification } from '../../../core/models/notification.model';
     </div>
 
     <mat-card class="table-card">
-      @if (dataSource.data.length === 0 && !loading) {
+      @if (loading) {
+        <app-skeleton type="table" [rowCount]="5" [colCount]="6"></app-skeleton>
+      } @else if (dataSource.data.length === 0) {
         <div class="empty-state">
           <mat-icon>notifications_none</mat-icon>
           <h3>Sin notificaciones</h3>

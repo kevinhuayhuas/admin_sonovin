@@ -12,6 +12,7 @@ import { SubscriptionService } from '../../core/services/subscription.service';
 import { ClientService } from '../../core/services/client.service';
 import { HasRoleDirective } from '../../shared/directives/has-role.directive';
 import { DaysUntilPipe } from '../../shared/pipes/days-until.pipe';
+import { SkeletonComponent } from '../../shared/components/skeleton/skeleton.component';
 import { Subscription } from '../../core/models/subscription.model';
 import dayjs from 'dayjs';
 
@@ -22,7 +23,7 @@ import dayjs from 'dayjs';
     CommonModule, RouterModule,
     MatCardModule, MatIconModule, MatTableModule, MatChipsModule,
     MatButtonModule, MatProgressBarModule,
-    HasRoleDirective, DaysUntilPipe,
+    HasRoleDirective, DaysUntilPipe, SkeletonComponent,
   ],
   template: `
     <div class="page-header">
@@ -32,8 +33,12 @@ import dayjs from 'dayjs';
       </div>
     </div>
 
-    <!-- Metrics Row (ADMIN only) -->
-    <div *appHasRole="['ADMIN']" class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
+    <!-- Metrics (ADMIN only) -->
+    <div *appHasRole="['ADMIN']" class="mb-8">
+      @if (loadingMetrics) {
+        <app-skeleton type="metrics"></app-skeleton>
+      } @else {
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
       <div class="metric-card blue">
         <div class="metric-icon"><mat-icon>people_alt</mat-icon></div>
         <div class="metric-body">
@@ -61,7 +66,9 @@ import dayjs from 'dayjs';
           <span class="metric-label">Vencidos</span>
           <span class="metric-value">{{ expiredCount }}</span>
         </div>
-      </div>
+          </div>
+        </div>
+      }
     </div>
 
     <!-- Expiration Summary -->
@@ -76,7 +83,9 @@ import dayjs from 'dayjs';
         </a>
       </div>
 
-      @if (expiringSubscriptions.length === 0) {
+      @if (loadingTable) {
+        <app-skeleton type="table" [rowCount]="4" [colCount]="5"></app-skeleton>
+      } @else if (expiringSubscriptions.length === 0) {
         <div class="empty-state">
           <mat-icon>check_circle_outline</mat-icon>
           <h3>Todo en orden</h3>
@@ -238,6 +247,8 @@ export class DashboardComponent implements OnInit {
   totalRevenue = 0;
   expiringCount = 0;
   expiredCount = 0;
+  loadingMetrics = true;
+  loadingTable = true;
 
   constructor(
     public authService: AuthService,
@@ -258,16 +269,22 @@ export class DashboardComponent implements OnInit {
         this.expiringSubscriptions = res?.data || res || [];
         this.expiringCount = this.expiringSubscriptions.filter(s => this.getDaysLeft(s) > 0).length;
         this.expiredCount = this.expiringSubscriptions.filter(s => this.getDaysLeft(s) <= 0).length;
+        this.loadingTable = false;
       },
+      error: () => { this.loadingTable = false; },
     });
   }
 
   loadMetrics(): void {
+    let loaded = 0;
+    const checkDone = () => { if (++loaded >= 2) this.loadingMetrics = false; };
     this.clientService.count().subscribe({
-      next: (res: any) => (this.totalClients = res?.data ?? 0),
+      next: (res: any) => { this.totalClients = res?.data ?? 0; checkDone(); },
+      error: () => checkDone(),
     });
     this.subscriptionService.getRevenue().subscribe({
-      next: (res: any) => (this.totalRevenue = res?.data ?? 0),
+      next: (res: any) => { this.totalRevenue = res?.data ?? 0; checkDone(); },
+      error: () => checkDone(),
     });
   }
 

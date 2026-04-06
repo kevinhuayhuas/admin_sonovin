@@ -15,6 +15,7 @@ import { HasRoleDirective } from '../../../shared/directives/has-role.directive'
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { DaysUntilPipe } from '../../../shared/pipes/days-until.pipe';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { SkeletonComponent } from '../../../shared/components/skeleton/skeleton.component';
 import { Subscription } from '../../../core/models/subscription.model';
 import dayjs from 'dayjs';
 
@@ -24,7 +25,7 @@ import dayjs from 'dayjs';
   imports: [
     CommonModule, RouterModule, MatTableModule, MatPaginatorModule,
     MatButtonModule, MatIconModule, MatCardModule, MatTooltipModule,
-    HasRoleDirective, StatusBadgeComponent, DaysUntilPipe,
+    HasRoleDirective, StatusBadgeComponent, DaysUntilPipe, SkeletonComponent,
   ],
   template: `
     <div class="page-header">
@@ -39,7 +40,9 @@ import dayjs from 'dayjs';
     </div>
 
     <mat-card class="table-card">
-      @if (dataSource.data.length === 0 && !loading) {
+      @if (loading) {
+        <app-skeleton type="table" [rowCount]="5" [colCount]="7"></app-skeleton>
+      } @else if (dataSource.data.length === 0) {
         <div class="empty-state">
           <mat-icon>card_membership</mat-icon>
           <h3>Sin suscripciones</h3>

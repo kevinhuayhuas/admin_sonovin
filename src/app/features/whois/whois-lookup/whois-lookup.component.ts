@@ -8,13 +8,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { WhoisService } from '../../../core/services/whois.service';
+import { SkeletonComponent } from '../../../shared/components/skeleton/skeleton.component';
 
 @Component({
   selector: 'app-whois-lookup',
   standalone: true,
   imports: [
     CommonModule, FormsModule, MatCardModule, MatFormFieldModule,
-    MatInputModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule,
+    MatInputModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule, SkeletonComponent,
   ],
   template: `
     <div class="page-header">
@@ -47,7 +48,11 @@ import { WhoisService } from '../../../core/services/whois.service';
       </div>
     </mat-card>
 
-    @if (result) {
+    @if (loading) {
+      <app-skeleton type="whois"></app-skeleton>
+    }
+
+    @if (result && !loading) {
       <mat-card class="result-card">
         @if (result.error) {
           <div class="error-state">
