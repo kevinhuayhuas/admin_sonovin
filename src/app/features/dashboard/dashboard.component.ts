@@ -12,6 +12,7 @@ import { SubscriptionService } from '../../core/services/subscription.service';
 import { ClientService } from '../../core/services/client.service';
 import { HasRoleDirective } from '../../shared/directives/has-role.directive';
 import { DaysUntilPipe } from '../../shared/pipes/days-until.pipe';
+import { DateFormatPipe } from '../../shared/pipes/date-format.pipe';
 import { SkeletonComponent } from '../../shared/components/skeleton/skeleton.component';
 import { finalize, forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -25,7 +26,7 @@ import dayjs from 'dayjs';
     CommonModule, RouterModule,
     MatCardModule, MatIconModule, MatTableModule, MatChipsModule,
     MatButtonModule, MatProgressBarModule,
-    HasRoleDirective, DaysUntilPipe, SkeletonComponent,
+    HasRoleDirective, DaysUntilPipe, DateFormatPipe, SkeletonComponent,
   ],
   template: `
     <div class="page-header">
@@ -126,7 +127,7 @@ import dayjs from 'dayjs';
 
           <ng-container matColumnDef="vencimiento">
             <th mat-header-cell *matHeaderCellDef>Vencimiento</th>
-            <td mat-cell *matCellDef="let sub">{{ sub.fechaVencimiento }}</td>
+            <td mat-cell *matCellDef="let sub">{{ sub.fechaVencimiento | dateFormat }}</td>
           </ng-container>
 
           <ng-container matColumnDef="diasRestantes">

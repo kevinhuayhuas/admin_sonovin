@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ClientService } from '../../../core/services/client.service';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { DaysUntilPipe } from '../../../shared/pipes/days-until.pipe';
+import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 import { Client } from '../../../core/models/client.model';
 
 @Component({
@@ -15,7 +16,7 @@ import { Client } from '../../../core/models/client.model';
   standalone: true,
   imports: [
     CommonModule, RouterModule, MatCardModule, MatTableModule,
-    MatButtonModule, MatIconModule, StatusBadgeComponent, DaysUntilPipe,
+    MatButtonModule, MatIconModule, StatusBadgeComponent, DaysUntilPipe, DateFormatPipe,
   ],
   template: `
     @if (client) {
@@ -56,7 +57,7 @@ import { Client } from '../../../core/models/client.model';
           </ng-container>
           <ng-container matColumnDef="vencimiento">
             <th mat-header-cell *matHeaderCellDef>Vencimiento</th>
-            <td mat-cell *matCellDef="let s">{{ s.fechaVencimiento }} ({{ s.fechaVencimiento | daysUntil }})</td>
+            <td mat-cell *matCellDef="let s">{{ s.fechaVencimiento | dateFormat }} ({{ s.fechaVencimiento | daysUntil }})</td>
           </ng-container>
           <ng-container matColumnDef="estado">
             <th mat-header-cell *matHeaderCellDef>Estado</th>

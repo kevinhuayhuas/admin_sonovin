@@ -15,6 +15,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { DaysUntilPipe } from '../../../shared/pipes/days-until.pipe';
+import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { SkeletonComponent } from '../../../shared/components/skeleton/skeleton.component';
 import { Subscription } from '../../../core/models/subscription.model';
@@ -26,7 +27,7 @@ import dayjs from 'dayjs';
   imports: [
     CommonModule, RouterModule, MatTableModule, MatPaginatorModule,
     MatButtonModule, MatIconModule, MatCardModule, MatTooltipModule,
-    HasRoleDirective, StatusBadgeComponent, DaysUntilPipe, SkeletonComponent,
+    HasRoleDirective, StatusBadgeComponent, DaysUntilPipe, DateFormatPipe, SkeletonComponent,
   ],
   template: `
     <div class="page-header">
@@ -89,7 +90,7 @@ import dayjs from 'dayjs';
             <th mat-header-cell *matHeaderCellDef>Vencimiento</th>
             <td mat-cell *matCellDef="let s">
               <div>
-                <div class="text-sm">{{ s.fechaVencimiento }}</div>
+                <div class="text-sm">{{ s.fechaVencimiento | dateFormat }}</div>
                 <span [class]="'urgency-badge ' + getUrgency(s)">
                   {{ s.fechaVencimiento | daysUntil }}
                 </span>

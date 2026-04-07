@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -237,7 +237,7 @@ export class WhoisLookupComponent {
   result: any = null;
   loading = false;
 
-  constructor(private whoisService: WhoisService) {}
+  constructor(private whoisService: WhoisService, private cdr: ChangeDetectorRef) {}
 
   lookup(): void {
     if (!this.domain) return;
@@ -249,8 +249,8 @@ export class WhoisLookupComponent {
     this.loading = true;
     this.result = null;
     this.whoisService.lookup(clean).subscribe({
-      next: (res: any) => { this.result = res.data || res; this.loading = false; },
-      error: () => { this.result = { domain: clean, error: 'Error en la consulta' }; this.loading = false; },
+      next: (res: any) => { this.result = res.data || res; this.loading = false; this.cdr.detectChanges(); },
+      error: () => { this.result = { domain: clean, error: 'Error en la consulta' }; this.loading = false; this.cdr.detectChanges(); },
     });
   }
 
@@ -258,7 +258,11 @@ export class WhoisLookupComponent {
     if (!dateStr) return 'No disponible';
     try {
       const d = new Date(dateStr);
-      return d.toLocaleDateString('es-PE', { year: 'numeric', month: 'long', day: 'numeric' });
+      if (isNaN(d.getTime())) return dateStr;
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = d.getFullYear();
+      return `${day}/${month}/${year}`;
     } catch {
       return dateStr;
     }
