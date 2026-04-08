@@ -210,8 +210,11 @@ export class SubscriptionFormComponent implements OnInit {
     this.saving = true;
 
     const val = { ...this.form.value };
-    if (val.fechaInicio instanceof Date) val.fechaInicio = val.fechaInicio.toISOString().split('T')[0];
-    if (val.fechaVencimiento instanceof Date) val.fechaVencimiento = val.fechaVencimiento.toISOString().split('T')[0];
+    // Moment o Date a YYYY-MM-DD para el backend
+    if (val.fechaInicio && val.fechaInicio.format) val.fechaInicio = val.fechaInicio.format('YYYY-MM-DD');
+    else if (val.fechaInicio instanceof Date) val.fechaInicio = val.fechaInicio.toISOString().split('T')[0];
+    if (val.fechaVencimiento && val.fechaVencimiento.format) val.fechaVencimiento = val.fechaVencimiento.format('YYYY-MM-DD');
+    else if (val.fechaVencimiento instanceof Date) val.fechaVencimiento = val.fechaVencimiento.toISOString().split('T')[0];
 
     const domain = val.dominio || 'sin dominio';
     const action = this.isEdit ? this.subService.update(this.subId!, val) : this.subService.create(val);
