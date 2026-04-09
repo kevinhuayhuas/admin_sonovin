@@ -226,18 +226,42 @@ import { SkeletonComponent } from '../../../shared/components/skeleton/skeleton.
       p { font-size: 14px; margin: 0; }
     }
 
-    @media (max-width: 640px) {
-      .search-card { padding: 12px !important; }
-      .search-row { flex-direction: column; gap: 8px; }
-      .search-btn { width: 100%; justify-content: center; height: 46px; }
+    @media (max-width: 768px) {
+      .page-header h1 { font-size: 22px; }
+      .search-card { padding: 12px !important; margin-bottom: 16px; }
+      .search-row {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+      }
+      .search-field {
+        width: 100% !important;
+        flex: none;
+      }
+      .search-btn {
+        width: 100%;
+        justify-content: center;
+        height: 48px;
+        border-radius: 10px;
+        font-size: 14px;
+        box-sizing: border-box;
+      }
       .info-grid { grid-template-columns: 1fr; }
       .info-item { padding: 12px 16px; }
       .info-item:nth-child(odd) { border-right: none; }
+      .info-icon { width: 34px; height: 34px; min-width: 34px; }
+      .info-label { font-size: 10px; }
+      .info-value { font-size: 13px; }
       .result-header { padding: 16px; gap: 12px; }
-      .result-header h2 { font-size: 16px; }
-      .domain-badge { width: 40px; height: 40px; mat-icon { font-size: 20px; width: 20px; height: 20px; } }
+      .result-header h2 { font-size: 17px; word-break: break-all; }
+      .domain-badge { width: 40px; height: 40px; min-width: 40px; mat-icon { font-size: 20px; width: 20px; height: 20px; } }
+      .registrar-text { font-size: 12px; }
       .section { padding: 14px 16px; }
+      .section h3 { font-size: 12px; }
+      .ns-list, .status-list { gap: 6px; }
       .ns-chip { font-size: 11px; padding: 4px 8px; word-break: break-all; }
+      .status-chip { font-size: 11px; padding: 3px 8px; }
+      .error-state { padding: 32px 16px; }
     }
   `],
 })
