@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use 'app/styles/variables' as *;
 
 html {
   height: 100%;
@@ -14,9 +15,13 @@ html {
   );
 }
 
+:root {
+  @include design-tokens;
+}
+
 body {
   color-scheme: light;
-  background-color: #f1f5f9;
+  background-color: $bg-page;
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
   margin: 0;
@@ -25,130 +30,83 @@ body {
 
 @import "tailwindcss";
 
-/* ===== GLOBAL CUSTOM STYLES ===== */
+/* ===== GLOBAL STYLES ===== */
 
-/* Scrollbar personalizada */
-::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar { width: $space-3; height: $space-3; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+::-webkit-scrollbar-thumb { background: $text-disabled; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: $text-placeholder; }
 
-/* Cards con sombra suave y bordes redondeados */
 mat-card, .mat-mdc-card {
-  border-radius: 12px !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06) !important;
-  border: 1px solid #e2e8f0 !important;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  border-radius: $radius-2xl !important;
+  box-shadow: $shadow-sm !important;
+  border: 1px solid $border-light !important;
+  transition: box-shadow $transition-base, transform $transition-base;
 }
 mat-card:hover, .mat-mdc-card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06) !important;
+  box-shadow: $shadow-md !important;
 }
 
-/* Tablas */
-.mat-mdc-table {
-  border-radius: 8px !important;
-  overflow: hidden;
-}
-.mat-mdc-header-row {
-  background-color: #f8fafc !important;
-}
+.mat-mdc-table { border-radius: $radius-lg !important; overflow: hidden; }
+.mat-mdc-header-row { background-color: $bg-subtle !important; }
 .mat-mdc-header-cell {
-  color: #475569 !important;
-  font-weight: 600 !important;
-  font-size: 12px !important;
+  color: $text-secondary !important;
+  font-weight: $font-weight-semibold !important;
+  font-size: $font-sm !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
 }
-.mat-mdc-row:hover {
-  background-color: #f1f5f9 !important;
-}
+.mat-mdc-row:hover { background-color: $bg-hover-light !important; }
 
-/* Botones */
 .mat-mdc-raised-button.mat-primary {
-  border-radius: 8px !important;
-  font-weight: 500 !important;
-  letter-spacing: 0.02em !important;
+  border-radius: $radius-lg !important;
+  font-weight: $font-weight-medium !important;
 }
 
-/* Form fields */
-.mat-mdc-form-field {
-  .mdc-text-field--outlined .mdc-notched-outline {
-    border-radius: 8px;
-  }
-}
-
-/* Chips */
 .mat-mdc-chip {
-  border-radius: 6px !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
+  border-radius: $radius-md !important;
+  font-size: $font-sm !important;
+  font-weight: $font-weight-semibold !important;
 }
 
-/* Paginator */
 .mat-mdc-paginator {
   background: transparent !important;
-  border-top: 1px solid #e2e8f0;
-  margin-top: 0;
+  border-top: 1px solid $border-light;
 }
 
-/* Snackbar */
-.mat-mdc-snack-bar-container {
-  border-radius: 8px !important;
-}
+.mat-mdc-snack-bar-container { border-radius: $radius-lg !important; }
 
-/* Transitions globales */
-a, button {
-  transition: all 0.15s ease;
-}
+a, button { transition: all $transition-fast; }
 
-/* ===== RESPONSIVE (Mobile) ===== */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  /* Table: scroll horizontal + columnas ocultas */
-  .mobile-cards {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  .mobile-cards .mat-mdc-table {
-    min-width: 100%;
-  }
+  .mobile-cards { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .mobile-cards .mat-mdc-table { min-width: 100%; }
   .mobile-cards .mat-mdc-cell,
   .mobile-cards .mat-mdc-header-cell {
-    padding: 8px 10px !important;
-    font-size: 13px !important;
+    padding: $space-4 $space-5 !important;
+    font-size: $font-base !important;
   }
-  /* Ocultar columnas secundarias en mobile */
   .mobile-cards .mat-column-rucDni,
   .mobile-cards .mat-column-whatsapp,
   .mobile-cards .mat-column-categoria,
   .mobile-cards .mat-column-proveedorDominio,
   .mobile-cards .mat-column-clienteNotificado,
   .mobile-cards .mat-column-urgency,
-  .mobile-cards .mat-column-costo {
-    display: none !important;
-  }
+  .mobile-cards .mat-column-costo { display: none !important; }
 
-  /* Paginator compact */
   .mat-mdc-paginator {
-    .mat-mdc-paginator-range-label { font-size: 12px; }
+    .mat-mdc-paginator-range-label { font-size: $font-sm; }
     .mat-mdc-paginator-page-size { display: none !important; }
   }
-
-  /* Page headers stack */
   .page-header {
     flex-direction: column !important;
-    gap: 12px !important;
-    h1 { font-size: 22px !important; }
+    gap: $space-6 !important;
+    h1 { font-size: $font-3xl !important; }
   }
   .add-btn { width: 100%; justify-content: center; }
-
-  /* Search full width */
-  .search-bar { padding: 12px 12px 0 !important; }
-
-  /* Metric cards 2 columns */
-  .metric-card { padding: 14px !important; }
-  .metric-value { font-size: 20px !important; }
-
-  /* Cards y forms */
-  .table-card { border-radius: 8px !important; }
+  .search-bar { padding: $space-6 $space-6 0 !important; }
+  .metric-card { padding: $space-7 !important; }
+  .table-card { border-radius: $radius-lg !important; }
   .form-card { max-width: 100% !important; }
 }

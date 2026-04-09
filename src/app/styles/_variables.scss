@@ -1,0 +1,132 @@
+// ============================================
+// DESIGN TOKENS - ClientesSaaS
+// Cambiar cualquier valor aqui afecta toda la app
+// ============================================
+
+// ===== SCSS VARIABLES (para styles.scss) =====
+$primary: #7c3aed;
+$primary-dark: #6d28d9;
+$primary-light: #a78bfa;
+$bg-page: #f1f5f9;
+$bg-subtle: #f8fafc;
+$bg-hover-light: #f1f5f9;
+$border-light: #e2e8f0;
+$text-secondary: #475569;
+$text-placeholder: #94a3b8;
+$text-disabled: #cbd5e1;
+$font-sm: 11px;
+$font-base: 13px;
+$font-3xl: 22px;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$radius-md: 6px;
+$radius-lg: 8px;
+$radius-2xl: 12px;
+$space-3: 6px;
+$space-4: 8px;
+$space-5: 10px;
+$space-6: 12px;
+$space-7: 14px;
+$shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+$shadow-md: 0 4px 12px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
+$transition-fast: 0.15s ease;
+$transition-base: 0.2s ease;
+
+// ===== CSS CUSTOM PROPERTIES =====
+// Se inyectan en :root para usar en component inline styles
+@mixin design-tokens {
+  // Marca
+  --c-primary: #{$primary};
+  --c-primary-dark: #{$primary-dark};
+  --c-primary-darker: #5b21b6;
+  --c-primary-light: #{$primary-light};
+  --c-primary-lighter: #8b5cf6;
+  --c-primary-bg: rgba(124, 58, 237, 0.12);
+
+  // Semanticos
+  --c-success: #22c55e;
+  --c-success-dark: #16a34a;
+  --c-success-bg: #f0fdf4;
+  --c-success-text: #15803d;
+  --c-warning: #f59e0b;
+  --c-warning-dark: #d97706;
+  --c-warning-bg: #fffbeb;
+  --c-warning-text: #b45309;
+  --c-danger: #ef4444;
+  --c-danger-dark: #dc2626;
+  --c-danger-bg: #fef2f2;
+  --c-danger-text: #b91c1c;
+  --c-info: #3b82f6;
+  --c-info-dark: #2563eb;
+  --c-cyan: #22d3ee;
+
+  // Neutrales
+  --c-text: #0f172a;
+  --c-text-2: #475569;
+  --c-text-3: #64748b;
+  --c-text-4: #94a3b8;
+  --c-text-5: #cbd5e1;
+  --c-bg: #f1f5f9;
+  --c-bg-card: #ffffff;
+  --c-bg-subtle: #f8fafc;
+  --c-bg-hover: #f1f5f9;
+  --c-border: #e2e8f0;
+  --c-border-subtle: #f1f5f9;
+
+  // Sidebar
+  --c-sidebar: #0f172a;
+  --c-sidebar-border: rgba(255,255,255,0.06);
+  --c-sidebar-hover: rgba(255,255,255,0.04);
+  --c-sidebar-active: rgba(124,58,237,0.12);
+
+  // Font sizes
+  --fs-xs: 10px;
+  --fs-sm: 11px;
+  --fs-base: 13px;
+  --fs-md: 14px;
+  --fs-lg: 15px;
+  --fs-xl: 16px;
+  --fs-2xl: 18px;
+  --fs-3xl: 22px;
+  --fs-4xl: 26px;
+  --fs-5xl: 30px;
+  --fs-6xl: 42px;
+
+  // Spacing
+  --sp-1: 2px;  --sp-2: 4px;  --sp-3: 6px;
+  --sp-4: 8px;  --sp-5: 10px; --sp-6: 12px;
+  --sp-8: 16px; --sp-9: 20px; --sp-10: 24px;
+  --sp-12: 32px; --sp-14: 48px; --sp-15: 60px;
+
+  // Radius
+  --r-sm: 4px;  --r-md: 6px;  --r-lg: 8px;
+  --r-xl: 10px; --r-2xl: 12px; --r-3xl: 16px;
+
+  // Shadows
+  --sh-xs: 0 1px 2px rgba(0,0,0,0.04);
+  --sh-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  --sh-md: 0 4px 12px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
+  --sh-primary: 0 2px 8px rgba(124,58,237,0.25);
+  --sh-primary-md: 0 4px 16px rgba(124,58,237,0.3);
+  --sh-primary-lg: 0 6px 24px rgba(124,58,237,0.4);
+
+  // Components
+  --btn-h: 44px;
+  --btn-h-lg: 52px;
+  --toolbar-h: 64px;
+  --sidebar-w: 260px;
+  --sidebar-w-sm: 72px;
+
+  // Transitions
+  --t-fast: 0.15s ease;
+  --t-base: 0.2s ease;
+  --t-slow: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Gradients
+  --g-primary: linear-gradient(135deg, #7c3aed, #6d28d9);
+  --g-primary-light: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  --g-success: linear-gradient(135deg, #22c55e, #16a34a);
+  --g-danger: linear-gradient(135deg, #ef4444, #dc2626);
+  --g-warning: linear-gradient(135deg, #f59e0b, #d97706);
+  --g-info: linear-gradient(135deg, #3b82f6, #2563eb);
+}
