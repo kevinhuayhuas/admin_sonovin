@@ -143,7 +143,6 @@ import dayjs from 'dayjs';
     }
     .add-btn { border-radius: 10px !important; height: 42px; padding: 0 20px !important; }
     .table-card { padding: 0 !important; overflow: hidden; }
-    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .client-cell { display: flex; align-items: center; gap: 10px; }
     .client-avatar {
       width: 32px; height: 32px; border-radius: 8px;
