@@ -227,8 +227,17 @@ import { SkeletonComponent } from '../../../shared/components/skeleton/skeleton.
     }
 
     @media (max-width: 640px) {
+      .search-card { padding: 12px !important; }
+      .search-row { flex-direction: column; gap: 8px; }
+      .search-btn { width: 100%; justify-content: center; height: 46px; }
       .info-grid { grid-template-columns: 1fr; }
+      .info-item { padding: 12px 16px; }
       .info-item:nth-child(odd) { border-right: none; }
+      .result-header { padding: 16px; gap: 12px; }
+      .result-header h2 { font-size: 16px; }
+      .domain-badge { width: 40px; height: 40px; mat-icon { font-size: 20px; width: 20px; height: 20px; } }
+      .section { padding: 14px 16px; }
+      .ns-chip { font-size: 11px; padding: 4px 8px; word-break: break-all; }
     }
   `],
 })

@@ -47,7 +47,7 @@ mat-card:hover, .mat-mdc-card:hover {
   box-shadow: $shadow-md !important;
 }
 
-.mat-mdc-table { border-radius: $radius-lg !important; overflow: hidden; }
+.mat-mdc-table { border-radius: $radius-lg !important; overflow: hidden; width: 100% !important; }
 .mat-mdc-header-row { background-color: $bg-subtle !important; }
 .mat-mdc-header-cell {
   color: $text-secondary !important;
