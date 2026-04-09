@@ -101,54 +101,30 @@ a, button {
   transition: all 0.15s ease;
 }
 
-/* ===== RESPONSIVE TABLES (Mobile Cards) ===== */
+/* ===== RESPONSIVE (Mobile) ===== */
 @media (max-width: 768px) {
-  /* Table se convierte en cards en mobile */
+  /* Table: scroll horizontal + columnas ocultas */
+  .mobile-cards {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   .mobile-cards .mat-mdc-table {
-    border: none !important;
-    background: transparent !important;
+    min-width: 100%;
   }
-  .mobile-cards .mat-mdc-header-row {
+  .mobile-cards .mat-mdc-cell,
+  .mobile-cards .mat-mdc-header-cell {
+    padding: 8px 10px !important;
+    font-size: 13px !important;
+  }
+  /* Ocultar columnas secundarias en mobile */
+  .mobile-cards .mat-column-rucDni,
+  .mobile-cards .mat-column-whatsapp,
+  .mobile-cards .mat-column-categoria,
+  .mobile-cards .mat-column-proveedorDominio,
+  .mobile-cards .mat-column-clienteNotificado,
+  .mobile-cards .mat-column-urgency,
+  .mobile-cards .mat-column-costo {
     display: none !important;
-  }
-  .mobile-cards .mat-mdc-row {
-    display: flex;
-    flex-direction: column;
-    padding: 16px;
-    margin-bottom: 8px;
-    background: white;
-    border-radius: 10px !important;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-    gap: 6px;
-  }
-  .mobile-cards .mat-mdc-row:hover {
-    background: white !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  }
-  .mobile-cards .mat-mdc-cell {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 2px 0 !important;
-    border-bottom: none !important;
-    min-height: auto !important;
-
-    &::before {
-      content: attr(data-label);
-      font-size: 11px;
-      font-weight: 600;
-      color: #94a3b8;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      min-width: 100px;
-    }
-  }
-  .mobile-cards .mat-mdc-cell:last-child {
-    justify-content: flex-end;
-    padding-top: 8px !important;
-    border-top: 1px solid #f1f5f9;
-    margin-top: 4px;
   }
 
   /* Paginator compact */
@@ -171,4 +147,8 @@ a, button {
   /* Metric cards 2 columns */
   .metric-card { padding: 14px !important; }
   .metric-value { font-size: 20px !important; }
+
+  /* Cards y forms */
+  .table-card { border-radius: 8px !important; }
+  .form-card { max-width: 100% !important; }
 }
