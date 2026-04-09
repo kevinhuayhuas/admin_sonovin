@@ -46,10 +46,11 @@ import { Notification } from '../../../core/models/notification.model';
           <p>Las alertas de vencimiento apareceran aqui</p>
         </div>
       } @else {
+        <div class="mobile-cards">
         <table mat-table [dataSource]="dataSource" class="w-full">
           <ng-container matColumnDef="tipo">
             <th mat-header-cell *matHeaderCellDef>Tipo</th>
-            <td mat-cell *matCellDef="let n">
+            <td mat-cell *matCellDef="let n" data-label="Tipo">
               <span [class]="'tipo-badge tipo-' + getTipoClass(n.tipo)">
                 {{ getTipoLabel(n.tipo) }}
               </span>
@@ -58,26 +59,26 @@ import { Notification } from '../../../core/models/notification.model';
 
           <ng-container matColumnDef="dominio">
             <th mat-header-cell *matHeaderCellDef>Dominio</th>
-            <td mat-cell *matCellDef="let n">
+            <td mat-cell *matCellDef="let n" data-label="Dominio">
               <span class="font-medium">{{ n.subscription?.dominio || '-' }}</span>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="cliente">
             <th mat-header-cell *matHeaderCellDef>Cliente</th>
-            <td mat-cell *matCellDef="let n">{{ n.subscription?.client?.nombre || '-' }}</td>
+            <td mat-cell *matCellDef="let n" data-label="Cliente">{{ n.subscription?.client?.nombre || '-' }}</td>
           </ng-container>
 
           <ng-container matColumnDef="fecha">
             <th mat-header-cell *matHeaderCellDef>Fecha Envio</th>
-            <td mat-cell *matCellDef="let n">
+            <td mat-cell *matCellDef="let n" data-label="Fecha">
               <span class="text-sm text-slate-600">{{ n.fechaEnvio | date:'dd/MM/yyyy HH:mm' }}</span>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="leido">
             <th mat-header-cell *matHeaderCellDef>Leido</th>
-            <td mat-cell *matCellDef="let n">
+            <td mat-cell *matCellDef="let n" data-label="Leido">
               <mat-icon [class]="n.leido ? 'text-green-500' : 'text-slate-300'" style="font-size: 20px;">
                 {{ n.leido ? 'check_circle' : 'radio_button_unchecked' }}
               </mat-icon>
@@ -86,7 +87,7 @@ import { Notification } from '../../../core/models/notification.model';
 
           <ng-container matColumnDef="clienteNotificado">
             <th mat-header-cell *matHeaderCellDef>Cliente Avisado</th>
-            <td mat-cell *matCellDef="let n">
+            <td mat-cell *matCellDef="let n" data-label="Avisado">
               <mat-icon [class]="n.clienteNotificado ? 'text-green-500' : 'text-slate-300'" style="font-size: 20px;">
                 {{ n.clienteNotificado ? 'check_circle' : 'radio_button_unchecked' }}
               </mat-icon>
@@ -112,6 +113,7 @@ import { Notification } from '../../../core/models/notification.model';
           <tr mat-header-row *matHeaderRowDef="columns"></tr>
           <tr mat-row *matRowDef="let row; columns: columns;" [class.unread-row]="!row.leido"></tr>
         </table>
+        </div>
       }
 
       <mat-paginator [length]="total" [pageSize]="20" [pageSizeOptions]="[10, 20, 50]"

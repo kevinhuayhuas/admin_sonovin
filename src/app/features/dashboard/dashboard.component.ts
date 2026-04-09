@@ -95,6 +95,7 @@ import dayjs from 'dayjs';
           <p>No hay vencimientos proximos en los siguientes 30 dias</p>
         </div>
       } @else {
+        <div class="mobile-cards">
         <table mat-table [dataSource]="expiringSubscriptions" class="w-full">
           <ng-container matColumnDef="urgency">
             <th mat-header-cell *matHeaderCellDef style="width: 4px; padding: 0;"></th>
@@ -105,7 +106,7 @@ import dayjs from 'dayjs';
 
           <ng-container matColumnDef="dominio">
             <th mat-header-cell *matHeaderCellDef>Dominio</th>
-            <td mat-cell *matCellDef="let sub">
+            <td mat-cell *matCellDef="let sub" data-label="Dominio">
               <div class="domain-cell">
                 <mat-icon class="domain-icon">language</mat-icon>
                 <span class="font-medium">{{ sub.dominio || 'Sin dominio' }}</span>
@@ -115,24 +116,24 @@ import dayjs from 'dayjs';
 
           <ng-container matColumnDef="cliente">
             <th mat-header-cell *matHeaderCellDef>Cliente</th>
-            <td mat-cell *matCellDef="let sub">{{ sub.client?.nombre }}</td>
+            <td mat-cell *matCellDef="let sub" data-label="Cliente">{{ sub.client?.nombre }}</td>
           </ng-container>
 
           <ng-container matColumnDef="servicio">
             <th mat-header-cell *matHeaderCellDef>Servicio</th>
-            <td mat-cell *matCellDef="let sub">
+            <td mat-cell *matCellDef="let sub" data-label="Servicio">
               <mat-chip class="service-chip">{{ sub.service?.nombre }}</mat-chip>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="vencimiento">
             <th mat-header-cell *matHeaderCellDef>Vencimiento</th>
-            <td mat-cell *matCellDef="let sub">{{ sub.fechaVencimiento | dateFormat }}</td>
+            <td mat-cell *matCellDef="let sub" data-label="Vence">{{ sub.fechaVencimiento | dateFormat }}</td>
           </ng-container>
 
           <ng-container matColumnDef="diasRestantes">
             <th mat-header-cell *matHeaderCellDef>Estado</th>
-            <td mat-cell *matCellDef="let sub">
+            <td mat-cell *matCellDef="let sub" data-label="Estado">
               <span [class]="'urgency-badge ' + getUrgencyLevel(sub)">
                 {{ sub.fechaVencimiento | daysUntil }}
               </span>
@@ -142,6 +143,7 @@ import dayjs from 'dayjs';
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+        </div>
       }
     </mat-card>
   `,
@@ -167,6 +169,21 @@ import dayjs from 'dayjs';
       transition: transform 0.15s ease, box-shadow 0.15s ease;
 
       &:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    }
+
+    @media (max-width: 768px) {
+      .page-header { margin-bottom: 20px; h1 { font-size: 22px; } }
+      .metric-card { padding: 14px; gap: 12px; }
+      .metric-value { font-size: 20px !important; }
+      .metric-icon { width: 40px !important; height: 40px !important; }
+      .card-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 12px;
+        padding: 16px !important;
+      }
+      .table-card { border-radius: 8px; }
+      table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     }
     .metric-icon {
       width: 48px; height: 48px;

@@ -44,10 +44,11 @@ import { ServiceItem } from '../../../core/models/service.model';
           <p>Agrega tu primer servicio para comenzar</p>
         </div>
       } @else {
+        <div class="mobile-cards">
         <table mat-table [dataSource]="dataSource" class="w-full">
           <ng-container matColumnDef="nombre">
             <th mat-header-cell *matHeaderCellDef>Servicio</th>
-            <td mat-cell *matCellDef="let s">
+            <td mat-cell *matCellDef="let s" data-label="Servicio">
               <div class="service-cell">
                 <div class="service-icon" [class]="getCategoryClass(s.categoria)">
                   <mat-icon>{{ getCategoryIcon(s.categoria) }}</mat-icon>
@@ -59,14 +60,14 @@ import { ServiceItem } from '../../../core/models/service.model';
 
           <ng-container matColumnDef="categoria">
             <th mat-header-cell *matHeaderCellDef>Categoria</th>
-            <td mat-cell *matCellDef="let s">
+            <td mat-cell *matCellDef="let s" data-label="Categoria">
               <span class="category-badge">{{ s.categoria || 'Sin categoria' }}</span>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="precioBase">
             <th mat-header-cell *matHeaderCellDef>Precio Base</th>
-            <td mat-cell *matCellDef="let s">
+            <td mat-cell *matCellDef="let s" data-label="Precio">
               <span class="price">S/ {{ s.precioBase | number:'1.2-2' }}</span>
             </td>
           </ng-container>
@@ -88,6 +89,7 @@ import { ServiceItem } from '../../../core/models/service.model';
           <tr mat-header-row *matHeaderRowDef="columns"></tr>
           <tr mat-row *matRowDef="let row; columns: columns;"></tr>
         </table>
+        </div>
       }
 
       <mat-paginator [length]="total" [pageSize]="10" [pageSizeOptions]="[5, 10, 25]"

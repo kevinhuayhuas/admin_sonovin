@@ -67,10 +67,11 @@ import { Client } from '../../../core/models/client.model';
           <p>{{ search ? 'No se encontraron clientes con ese criterio' : 'Agrega tu primer cliente' }}</p>
         </div>
       } @else {
+        <div class="mobile-cards">
         <table mat-table [dataSource]="dataSource" class="w-full">
           <ng-container matColumnDef="nombre">
             <th mat-header-cell *matHeaderCellDef>Cliente</th>
-            <td mat-cell *matCellDef="let c">
+            <td mat-cell *matCellDef="let c" data-label="Cliente">
               <div class="client-cell">
                 <div class="client-avatar">{{ c.nombre?.charAt(0) }}</div>
                 <div>
@@ -83,21 +84,21 @@ import { Client } from '../../../core/models/client.model';
 
           <ng-container matColumnDef="email">
             <th mat-header-cell *matHeaderCellDef>Email</th>
-            <td mat-cell *matCellDef="let c">
+            <td mat-cell *matCellDef="let c" data-label="Email">
               <span class="text-slate-600">{{ c.email || '-' }}</span>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="whatsapp">
             <th mat-header-cell *matHeaderCellDef>WhatsApp</th>
-            <td mat-cell *matCellDef="let c">
+            <td mat-cell *matCellDef="let c" data-label="WhatsApp">
               <span class="text-slate-600">{{ c.whatsapp || '-' }}</span>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="rucDni">
             <th mat-header-cell *matHeaderCellDef>RUC/DNI</th>
-            <td mat-cell *matCellDef="let c">
+            <td mat-cell *matCellDef="let c" data-label="RUC/DNI">
               <span class="text-slate-500 text-sm">{{ c.rucDni || '-' }}</span>
             </td>
           </ng-container>
@@ -124,6 +125,7 @@ import { Client } from '../../../core/models/client.model';
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+        </div>
       }
 
       <mat-paginator [length]="total" [pageSize]="10" [pageSizeOptions]="[5, 10, 25]"
@@ -154,6 +156,16 @@ import { Client } from '../../../core/models/client.model';
       mat-icon { font-size: 48px; width: 48px; height: 48px; color: #cbd5e1; margin-bottom: 12px; }
       h3 { font-size: 16px; font-weight: 600; color: #475569; margin: 0 0 4px; }
       p { font-size: 14px; margin: 0; }
+    }
+
+    @media (max-width: 768px) {
+      .page-header {
+        flex-direction: column; gap: 12px;
+        h1 { font-size: 22px; }
+      }
+      .add-btn { width: 100%; justify-content: center; }
+      .search-bar { padding: 12px 12px 0; }
+      table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     }
   `],
 })

@@ -40,10 +40,11 @@ import { User } from '../../../core/models/user.model';
           <p>Crea el primer usuario del sistema</p>
         </div>
       } @else {
+        <div class="mobile-cards">
         <table mat-table [dataSource]="dataSource" class="w-full">
           <ng-container matColumnDef="nombre">
             <th mat-header-cell *matHeaderCellDef>Usuario</th>
-            <td mat-cell *matCellDef="let u">
+            <td mat-cell *matCellDef="let u" data-label="Usuario">
               <div class="user-cell">
                 <div class="user-avatar">{{ u.nombre?.charAt(0) }}</div>
                 <div>
@@ -56,14 +57,14 @@ import { User } from '../../../core/models/user.model';
 
           <ng-container matColumnDef="role">
             <th mat-header-cell *matHeaderCellDef>Rol</th>
-            <td mat-cell *matCellDef="let u">
+            <td mat-cell *matCellDef="let u" data-label="Rol">
               <span [class]="'role-badge role-' + u.role.toLowerCase()">{{ u.role }}</span>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="activo">
             <th mat-header-cell *matHeaderCellDef>Estado</th>
-            <td mat-cell *matCellDef="let u">
+            <td mat-cell *matCellDef="let u" data-label="Estado">
               <span [class]="'status-pill ' + (u.activo ? 'active' : 'inactive')">
                 <span class="dot"></span>
                 {{ u.activo ? 'Activo' : 'Inactivo' }}
@@ -83,6 +84,7 @@ import { User } from '../../../core/models/user.model';
           <tr mat-header-row *matHeaderRowDef="columns"></tr>
           <tr mat-row *matRowDef="let row; columns: columns;"></tr>
         </table>
+        </div>
       }
 
       <mat-paginator [length]="total" [pageSize]="10" [pageSizeOptions]="[5, 10, 25]"

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
@@ -10,11 +10,12 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
   imports: [CommonModule, RouterOutlet, ToolbarComponent, SidebarComponent],
   template: `
     <div class="layout" [class.collapsed]="collapsed">
+      <div class="sidebar-backdrop" *ngIf="!collapsed && isMobile" (click)="collapsed = true"></div>
       <aside class="sidebar">
-        <app-sidebar [collapsed]="collapsed" (toggleCollapse)="collapsed = !collapsed"></app-sidebar>
+        <app-sidebar [collapsed]="collapsed" (toggleCollapse)="toggleSidebar()"></app-sidebar>
       </aside>
       <div class="main">
-        <app-toolbar (toggleSidenav)="collapsed = !collapsed"></app-toolbar>
+        <app-toolbar (toggleSidenav)="toggleSidebar()"></app-toolbar>
         <div class="page-wrapper">
           <router-outlet></router-outlet>
         </div>
@@ -62,12 +63,67 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
       to { opacity: 1; transform: translateY(0); }
     }
 
+    .sidebar-backdrop {
+      display: none;
+    }
+
     @media (max-width: 768px) {
-      .sidebar { position: fixed; left: 0; top: 0; height: 100vh; z-index: 1000; }
-      .layout.collapsed .sidebar { width: 0; min-width: 0; overflow: hidden; }
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        z-index: 1000;
+        transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                    min-width 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .layout.collapsed .sidebar {
+        width: 0;
+        min-width: 0;
+        overflow: hidden;
+        transform: translateX(-260px);
+      }
+      .sidebar-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        animation: fadeInBackdrop 0.2s ease;
+      }
+      .page-wrapper {
+        padding: 16px;
+      }
+    }
+
+    @keyframes fadeInBackdrop {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
   `],
 })
 export class MainLayoutComponent {
   collapsed = false;
+  isMobile = false;
+
+  constructor() {
+    this.checkMobile();
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+    this.checkMobile();
+  }
+
+  private checkMobile(): void {
+    this.isMobile = window.innerWidth <= 768;
+    if (this.isMobile && !this.collapsed) {
+      this.collapsed = true;
+    }
+  }
+
+  toggleSidebar(): void {
+    this.collapsed = !this.collapsed;
+  }
 }

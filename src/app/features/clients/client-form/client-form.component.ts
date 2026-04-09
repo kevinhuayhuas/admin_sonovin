@@ -139,8 +139,12 @@ import { SkeletonComponent } from '../../../shared/components/skeleton/skeleton.
       &:hover { background: #f8fafc; border-color: #cbd5e1; }
     }
     @media (max-width: 640px) {
-      .form-grid { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; padding: 16px; }
       .col-span-2 { grid-column: span 1; }
+      .page-header h1 { font-size: 22px; }
+      .form-card { max-width: 100%; }
+      .form-actions { flex-direction: column; }
+      .submit-btn, .cancel-btn { width: 100%; justify-content: center; }
     }
   `],
 })

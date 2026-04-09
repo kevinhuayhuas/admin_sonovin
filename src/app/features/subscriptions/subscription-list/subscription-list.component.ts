@@ -51,6 +51,7 @@ import dayjs from 'dayjs';
           <p>Crea la primera suscripcion para un cliente</p>
         </div>
       } @else {
+        <div class="mobile-cards">
         <table mat-table [dataSource]="dataSource" class="w-full">
           <ng-container matColumnDef="urgency">
             <th mat-header-cell *matHeaderCellDef style="width: 4px; padding: 0;"></th>
@@ -61,7 +62,7 @@ import dayjs from 'dayjs';
 
           <ng-container matColumnDef="cliente">
             <th mat-header-cell *matHeaderCellDef>Cliente</th>
-            <td mat-cell *matCellDef="let s">
+            <td mat-cell *matCellDef="let s" data-label="Cliente">
               <div class="client-cell">
                 <div class="client-avatar">{{ s.client?.nombre?.charAt(0) || '?' }}</div>
                 <span class="font-medium">{{ s.client?.nombre || '-' }}</span>
@@ -71,7 +72,7 @@ import dayjs from 'dayjs';
 
           <ng-container matColumnDef="dominio">
             <th mat-header-cell *matHeaderCellDef>Dominio</th>
-            <td mat-cell *matCellDef="let s">
+            <td mat-cell *matCellDef="let s" data-label="Dominio">
               <div class="domain-cell">
                 <mat-icon class="text-slate-400" style="font-size: 16px; width: 16px; height: 16px;">language</mat-icon>
                 <span>{{ s.dominio || '-' }}</span>
@@ -81,14 +82,14 @@ import dayjs from 'dayjs';
 
           <ng-container matColumnDef="servicio">
             <th mat-header-cell *matHeaderCellDef>Servicio</th>
-            <td mat-cell *matCellDef="let s">
+            <td mat-cell *matCellDef="let s" data-label="Servicio">
               <span class="service-chip">{{ s.service?.nombre || '-' }}</span>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="vencimiento">
             <th mat-header-cell *matHeaderCellDef>Vencimiento</th>
-            <td mat-cell *matCellDef="let s">
+            <td mat-cell *matCellDef="let s" data-label="Vence">
               <div>
                 <div class="text-sm">{{ s.fechaVencimiento | dateFormat }}</div>
                 <span [class]="'urgency-badge ' + getUrgency(s)">
@@ -100,12 +101,12 @@ import dayjs from 'dayjs';
 
           <ng-container matColumnDef="estado">
             <th mat-header-cell *matHeaderCellDef>Estado</th>
-            <td mat-cell *matCellDef="let s"><app-status-badge [estado]="s.estado"></app-status-badge></td>
+            <td mat-cell *matCellDef="let s" data-label="Estado"><app-status-badge [estado]="s.estado"></app-status-badge></td>
           </ng-container>
 
           <ng-container matColumnDef="costo">
             <th mat-header-cell *matHeaderCellDef>Costo Anual</th>
-            <td mat-cell *matCellDef="let s">
+            <td mat-cell *matCellDef="let s" data-label="Costo">
               <span class="font-semibold">S/ {{ s.costoAnual | number:'1.2-2' }}</span>
             </td>
           </ng-container>
@@ -128,6 +129,7 @@ import dayjs from 'dayjs';
           <tr mat-header-row *matHeaderRowDef="columns"></tr>
           <tr mat-row *matRowDef="let row; columns: columns;"></tr>
         </table>
+        </div>
       }
 
       <mat-paginator [length]="total" [pageSize]="10" [pageSizeOptions]="[5, 10, 25]"
@@ -141,6 +143,7 @@ import dayjs from 'dayjs';
     }
     .add-btn { border-radius: 10px !important; height: 42px; padding: 0 20px !important; }
     .table-card { padding: 0 !important; overflow: hidden; }
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .client-cell { display: flex; align-items: center; gap: 10px; }
     .client-avatar {
       width: 32px; height: 32px; border-radius: 8px;

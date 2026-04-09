@@ -106,6 +106,13 @@ import { NotificationService } from '../../core/services/notification.service';
     }
     .menu-name { font-size: 14px; font-weight: 600; color: #1e293b; }
     .menu-email { font-size: 12px; color: #64748b; }
+
+    @media (max-width: 768px) {
+      .toolbar { padding: 0 12px; height: 56px; }
+      .user-info { display: none; }
+      .dropdown-icon { display: none; }
+      .user-chip { margin-left: 4px; padding: 2px; }
+    }
   `],
 })
 export class ToolbarComponent implements OnInit {

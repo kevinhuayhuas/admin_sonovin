@@ -20,8 +20,8 @@ import { Client } from '../../../core/models/client.model';
   ],
   template: `
     @if (client) {
-      <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-bold">{{ client.nombre }}</h1>
+      <div class="detail-header">
+        <h1>{{ client.nombre }}</h1>
         <a mat-raised-button color="accent" [routerLink]="['/clients', client.id, 'edit']">
           <mat-icon>edit</mat-icon> Editar
         </a>
@@ -46,31 +46,54 @@ import { Client } from '../../../core/models/client.model';
 
       <h2 class="text-xl font-bold mb-4">Suscripciones</h2>
       @if (client.subscriptions && client.subscriptions.length > 0) {
-        <table mat-table [dataSource]="client.subscriptions" class="w-full">
-          <ng-container matColumnDef="dominio">
-            <th mat-header-cell *matHeaderCellDef>Dominio</th>
-            <td mat-cell *matCellDef="let s">{{ s.dominio || '-' }}</td>
-          </ng-container>
-          <ng-container matColumnDef="servicio">
-            <th mat-header-cell *matHeaderCellDef>Servicio</th>
-            <td mat-cell *matCellDef="let s">{{ s.service?.nombre }}</td>
-          </ng-container>
-          <ng-container matColumnDef="vencimiento">
-            <th mat-header-cell *matHeaderCellDef>Vencimiento</th>
-            <td mat-cell *matCellDef="let s">{{ s.fechaVencimiento | dateFormat }} ({{ s.fechaVencimiento | daysUntil }})</td>
-          </ng-container>
-          <ng-container matColumnDef="estado">
-            <th mat-header-cell *matHeaderCellDef>Estado</th>
-            <td mat-cell *matCellDef="let s"><app-status-badge [estado]="s.estado"></app-status-badge></td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="subColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: subColumns;"></tr>
-        </table>
+        <div class="table-scroll">
+          <table mat-table [dataSource]="client.subscriptions" class="w-full">
+            <ng-container matColumnDef="dominio">
+              <th mat-header-cell *matHeaderCellDef>Dominio</th>
+              <td mat-cell *matCellDef="let s">{{ s.dominio || '-' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="servicio">
+              <th mat-header-cell *matHeaderCellDef>Servicio</th>
+              <td mat-cell *matCellDef="let s">{{ s.service?.nombre }}</td>
+            </ng-container>
+            <ng-container matColumnDef="vencimiento">
+              <th mat-header-cell *matHeaderCellDef>Vencimiento</th>
+              <td mat-cell *matCellDef="let s">{{ s.fechaVencimiento | dateFormat }} ({{ s.fechaVencimiento | daysUntil }})</td>
+            </ng-container>
+            <ng-container matColumnDef="estado">
+              <th mat-header-cell *matHeaderCellDef>Estado</th>
+              <td mat-cell *matCellDef="let s"><app-status-badge [estado]="s.estado"></app-status-badge></td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="subColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: subColumns;"></tr>
+          </table>
+        </div>
       } @else {
         <p class="text-gray-500">Sin suscripciones</p>
       }
     }
   `,
+  styles: [`
+    .detail-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      h1 { font-size: 26px; font-weight: 700; color: #0f172a; margin: 0; }
+    }
+    .table-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    @media (max-width: 768px) {
+      .detail-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        h1 { font-size: 22px; }
+      }
+    }
+  `],
 })
 export class ClientDetailComponent implements OnInit {
   client: Client | null = null;
