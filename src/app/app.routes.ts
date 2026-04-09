@@ -93,6 +93,32 @@ export const routes: Routes = [
         canActivate: [roleGuard],
         data: { roles: ['ADMIN', 'EDITOR'] },
       },
+      // Payments
+      {
+        path: 'payments',
+        loadComponent: () =>
+          import('./features/payments/payment-list/payment-list.component').then(
+            (m) => m.PaymentListComponent,
+          ),
+      },
+      {
+        path: 'payments/new',
+        loadComponent: () =>
+          import('./features/payments/payment-form/payment-form.component').then(
+            (m) => m.PaymentFormComponent,
+          ),
+        canActivate: [roleGuard],
+        data: { roles: ['ADMIN', 'EDITOR'] },
+      },
+      {
+        path: 'payments/:id/edit',
+        loadComponent: () =>
+          import('./features/payments/payment-form/payment-form.component').then(
+            (m) => m.PaymentFormComponent,
+          ),
+        canActivate: [roleGuard],
+        data: { roles: ['ADMIN', 'EDITOR'] },
+      },
       // Notifications
       {
         path: 'notifications',

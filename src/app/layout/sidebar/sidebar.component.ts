@@ -46,6 +46,11 @@ import { HasRoleDirective } from '../../shared/directives/has-role.directive';
             <mat-icon>card_membership</mat-icon>
             <span class="nav-text" *ngIf="!collapsed">Suscripciones</span>
           </a>
+          <a class="nav-item" routerLink="/payments" routerLinkActive="active"
+             [matTooltip]="collapsed ? 'Pagos' : ''" matTooltipPosition="right">
+            <mat-icon>payments</mat-icon>
+            <span class="nav-text" *ngIf="!collapsed">Pagos</span>
+          </a>
         </div>
 
         <div class="nav-section">
